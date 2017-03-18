@@ -44,10 +44,12 @@ exports.postLogin = (req, res, next) => {
 
             if (err) { return next(err); }
             if(user.citySelected === false) {
+                req.flash('success', { msg: 'Success! You logged in for the first time.' });
                 res.redirect('/set/address');
+            } else {
+                req.flash('success', { msg: 'Success! You are logged in.' });
+                res.redirect(req.session.returnTo || '/');
             }
-            req.flash('success', { msg: 'Success! You are logged in.' });
-            res.redirect(req.session.returnTo || '/');
         });
     })(req, res, next);
 };

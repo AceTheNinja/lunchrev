@@ -147,30 +147,28 @@ app.post('/set/address', userController.postAddress);
  */
 app.post('/get/areas', (req,res)=>{
 
-    ServiceArea.find({
-        city: req.body.city
-    },(err,address)=>{
-        for(var i= 0; i<address[0].area.length;i++){
-            if(address[0].area[i] === req.user.profile.area){
-                address[0].area.splice(i,1);
+    ServiceArea
+        .find({ city: req.body.city },(err,address)=>{
+            console.log(address[0].area);
+            for(var i = 0; i < address[0].area.length;i++){
+                if(address[0].area[i] === req.user.profile.area){
+                    address[0].area.splice(i,1);
+                }
             }
-        }
-        if(err) {
-            res.status(500);
-        }
-
-        else if(address) {
-            var data = {
-                area: address[0].area,
-                city: address[0].city,
-                currentCity: req.user.profile.city,
-                currentArea: req.user.profile.area
+            if(err) {
+                res.status(500);
             }
-            res.json(data);
-        }
 
-        //res.json(address);
-    })
+            else if(address) {
+                var data = {
+                    area: address[0].area,
+                    city: address[0].city,
+                    currentCity: req.user.profile.city,
+                    currentArea: req.user.profile.area
+                }
+                res.json(data);
+            }
+        });
 
 });
 
@@ -192,7 +190,6 @@ app.get('/admin',(req,res)=>{
 });
 
 app.post('/admin',(req,res)=>{
-  console.log(req.body.city + ' ' + req.body.area);
   ServiceArea
       .findOne({city : req.body.city})
       .then((addresses)=>{
