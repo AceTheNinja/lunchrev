@@ -1,13 +1,15 @@
-FROM node:6.6.0
+FROM node:latest
 
-COPY . /starter
-COPY package.json /starter/package.json
-COPY .env.example /starter/.env.example
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-WORKDIR /starter
+# Install app dependencies
+COPY package.json /usr/src/app/
+RUN npm install
+RUN npm install -g nodemon
 
-RUN npm install 
+# Bundle app source
 
-CMD ["npm","start"]
-
-EXPOSE 8888
+EXPOSE 3000
+CMD [ "nodemon", "app.js", "-L"]
