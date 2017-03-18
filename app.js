@@ -186,7 +186,6 @@ app.get('/admin',(req,res)=>{
         values : list
       });
   });
-
 });
 
 app.post('/admin',(req,res)=>{
